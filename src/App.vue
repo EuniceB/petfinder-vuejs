@@ -1,28 +1,88 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header></Header>
+    <div class="container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/layout/Header";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    Header
   }
-}
+ };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.btn-primary {
+  background-color: #2a324b;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1e2334;
+}
+
+.btn-secondary {
+  background-color: #6273a7;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #58699d;
+}
+
+a.btn-primary {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.loader img {
+  display: block;
+  width: 100px;
+  margin: 40px auto;
+}
+
+a.btn-primary:hover {
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 85vh;
+}
+
+.container > * {
+  min-height: inherit
 }
 </style>
