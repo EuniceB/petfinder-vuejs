@@ -83,8 +83,8 @@ export default {
       return this.$store.state.pet
     }
   },
-  async created() {
-    this.$store.dispatch("getPetInformation", this.$route.params.id);
+  async mounted() {
+    this.$store.dispatch("getPetInformation", {id: this.$route.params.id});
   },
 };
 </script>

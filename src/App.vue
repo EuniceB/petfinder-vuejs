@@ -13,9 +13,17 @@ import Header from "./components/layout/Header";
 export default {
   name: "App",
   components: {
-    Header
+    Header,
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.accessToken != null;
+    },
+    typesAreLoaded(){
+      return this.$store.state.types && this.$store.state.types.length>0
+    }
   }
- };
+};
 </script>
 
 <style>
@@ -83,6 +91,6 @@ a.btn-primary:hover {
 }
 
 .container > * {
-  min-height: inherit
+  min-height: inherit;
 }
 </style>

@@ -17,6 +17,43 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    if (error.response && error.response != 401) {
+      return Promise.reject(error);
+    }
+    const accessToken = await getNewAccessToken();
+    localStorage.setItem("accessToken", accessToken);
+    error.config.headers.Authorization = `Bearer ${accessToken}`;
+    return axios.request(error.config);
+  }
+);
+
+axios.interceptors.request.use(
+  async (request) => {
+    if (
+      !request.headers.Authorization ||
+      request.headers.Authorization.length === 0
+      || request.headers.Authorization==="Bearer undefined"
+    ) {
+      let accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        accessToken = await getNewAccessToken();
+        localStorage.setItem("accessToken", accessToken);
+      }
+      request.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return request;
+  },
+  (error) => {
+    console.log("Request error:", error.response);
+    return Promise.reject(error);
+  }
+);
+
 const router = new VueRouter({
   routes: [
     {
@@ -35,9 +72,9 @@ const router = new VueRouter({
 });
 
 Vue.use(Vuex);
-const store = new Vuex.Store({ // TODO: Put all of this in a separate file
+const store = new Vuex.Store({
+  // TODO: Put all of this in a separate file
   state: {
-    accessToken: null,
     pet: null,
     loading: false,
     pagination: null,
@@ -46,9 +83,6 @@ const store = new Vuex.Store({ // TODO: Put all of this in a separate file
     type: null,
   },
   mutations: {
-    setAccessToken(state, payload) {
-      state.accessToken = payload.accessToken;
-    },
     setLoading(state, payload) {
       state.loading = payload.loading;
     },
@@ -65,34 +99,11 @@ const store = new Vuex.Store({ // TODO: Put all of this in a separate file
       state.pets = payload.pets;
     },
     setType(state, payload) {
-      let newType = state.types.find((type) => type.name === payload.type);
-      const newLink = newType._links.self.href;
-      state.type = newLink.substring(newType._links.self.href.lastIndexOf("/")+1);
+      state.type = payload.type;
     },
   },
   actions: {
-    async getNewAccessToken({ commit }) {
-      try {
-        console.log("Getting a new access token...");
-        console.log(process.env.VUE_APP_CLIENT_ID, process.env.VUE_APP_CLIENT_SECRET)
-        const { data } = await axios.post("/oauth2/token", {
-          grant_type: "client_credentials",
-          client_id: process.env.VUE_APP_CLIENT_ID,
-          client_secret: process.env.VUE_APP_CLIENT_SECRET,
-        });
-        commit("setAccessToken", { accessToken: data.access_token });
-        console.log(`New access token = ${data.access_token}`);
-      } catch (err) {
-        if (err.response) {
-          console.log(err.response);
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("Error", err.message);
-        }
-      }
-    },
-    async getPetInformation({ state, commit, dispatch }, payload) {
+    async getPetInformation({ state, commit }, payload) {
       try {
         commit("setLoading", { loading: true });
         const {
@@ -105,20 +116,10 @@ const store = new Vuex.Store({ // TODO: Put all of this in a separate file
         commit("setPet", { pet: animal });
         commit("setLoading", { loading: false });
       } catch (err) {
-        if (err.response) {
-          console.log(err.response);
-          if (err.response.status === 401) {
-            await dispatch("getNewAccessToken");
-            dispatch("getPetInformation", { id: payload.id });
-          }
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("Error", err.message);
-        }
+        console.log("Error", err.message);
       }
     },
-    async getTypes({ state, commit, dispatch }) {
+    async getTypes({ state, commit }) {
       try {
         commit("setLoading", { loading: true });
         const {
@@ -131,50 +132,33 @@ const store = new Vuex.Store({ // TODO: Put all of this in a separate file
         commit("setTypes", { types });
         commit("setLoading", { loading: false });
       } catch (err) {
-        if (err.response) {
-          console.log(err.response);
-          if (err.response.status === 401) {
-            await dispatch("getNewAccessToken");
-            dispatch("getTypes");
-          }
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("Error", err.message);
-        }
+        console.log("Error", err.message);
       }
     },
-    async getPetsPage({ state, commit, dispatch }, payload = { page: 1 }) {
+    async getPetsPage({ state, commit, dispatch }, payload) {
+      if (!payload.page) {
+        payload.page = 1;
+      }
       try {
         commit("setLoading", { loading: true });
+        if (state.types.length === 0) {
+          await dispatch("getTypes");
+        }
+        const type = state.types.find((type) => type.name === payload.type);
+        const newLink = type._links.self.href;
+        const typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
         const {
           data: { animals, pagination },
-        } = await axios.get(
-          `/animals?type=${state.type}&page=${payload.page}`,
-          {
-            headers: {
-              Authorization: `Bearer ${state.accessToken}`,
-            },
-          }
-        );
+        } = await axios.get(`/animals?type=${typeLink}&page=${payload.page}`);
         commit("setPets", { pets: animals });
         commit("setPagination", { pagination });
+        commit("setType", { type: typeLink });
         commit("setLoading", { loading: false });
       } catch (err) {
-        if (err.response) {
-          console.log(err.response);
-          if (err.response.status === 401) {
-            await dispatch("getNewAccessToken");
-            dispatch("getPetsPage");
-          }
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("Error", err.message);
-        }
+        console.log("Error", err.message);
       }
     },
-    async searchPets({ state, commit, dispatch }, payload) {
+    async searchPets({ state, commit }, payload) {
       try {
         commit("setLoading", { loading: true });
         const {
@@ -191,12 +175,7 @@ const store = new Vuex.Store({ // TODO: Put all of this in a separate file
         commit("setPagination", { pagination });
         commit("setLoading", { loading: false });
       } catch (err) {
-        console.log(err);
-        console.log(
-          `Error while searching for pets: ${err}. Will try to get a new access token.`
-        );
-        await dispatch("getNewAccessToken");
-        dispatch("searchPets");
+        console.log("Error", err.message);
       }
     },
   },
@@ -207,3 +186,14 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount("#app");
+
+async function getNewAccessToken() {
+  const {
+    data: { access_token },
+  } = await axios.post("/oauth2/token", {
+    grant_type: "client_credentials",
+    client_id: process.env.VUE_APP_CLIENT_ID,
+    client_secret: process.env.VUE_APP_CLIENT_SECRET,
+  });
+  return access_token;
+}

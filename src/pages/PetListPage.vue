@@ -15,11 +15,14 @@ export default {
     FindAPet,
     Pets,
   },
-  created() {
-    console.log(this.$route.params.type)
-    this.$store.commit("setType", {type: this.$route.params.type});
-    this.$store.dispatch("getPetsPage");
-  }
+  computed: {
+    typesAreLoaded() {
+      return this.$store.state.types && this.$store.state.types.length > 0;
+    },
+  },
+  async mounted() {
+    this.$store.dispatch("getPetsPage", { type: this.$route.params.type });
+  },
 };
 </script>
 

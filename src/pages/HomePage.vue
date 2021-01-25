@@ -15,10 +15,14 @@ export default {
     types() {
       return this.$store.state.types;
     },
+    typesAreLoaded() {
+      return this.$store.state.types && this.$store.state.types.length > 0;
+    },
   },
-  async created() { // TODO: mounted
-    await this.$store.dispatch("getNewAccessToken"); // TODO Load authenticationToken on all pages, not just Home, and also store it somewhere offline
-    this.$store.dispatch("getTypes");
+  async mounted() {
+    if (!this.typesAreLoaded) {
+      await this.$store.dispatch("getTypes");
+    }
   },
 };
 </script>

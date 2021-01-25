@@ -9,7 +9,7 @@
       <div class="pets" v-if="pets && pets.length > 0">
         <router-link
           tag="div"
-          :to="'pet/' + pet.id"
+          :to="'/pet/' + pet.id"
           class="pet"
           v-bind:key="pet.id"
           v-for="pet in pets"
