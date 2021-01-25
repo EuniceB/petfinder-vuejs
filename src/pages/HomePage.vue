@@ -1,7 +1,12 @@
 
 <template>
   <ul>
-    <router-link :to="'/pets/'+type.name" tag="li" v-for="type in types" v-bind:key="type.id">
+    <router-link
+      :to="'/pets/' + type.name"
+      tag="li"
+      v-for="type in types"
+      v-bind:key="type.id"
+    >
       <a>{{ type.name }}</a>
     </router-link>
   </ul>
@@ -15,14 +20,9 @@ export default {
     types() {
       return this.$store.state.types;
     },
-    typesAreLoaded() {
-      return this.$store.state.types && this.$store.state.types.length > 0;
-    },
   },
-  async mounted() {
-    if (!this.typesAreLoaded) {
-      await this.$store.dispatch("getTypes");
-    }
+  mounted() {
+    this.$store.dispatch("getTypes");
   },
 };
 </script>
