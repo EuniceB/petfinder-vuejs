@@ -36,8 +36,8 @@ axios.interceptors.request.use(
   async (request) => {
     if (
       !request.headers.Authorization ||
-      request.headers.Authorization.length === 0
-      || request.headers.Authorization==="Bearer undefined"
+      request.headers.Authorization.length === 0 ||
+      request.headers.Authorization === "Bearer undefined"
     ) {
       let accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
@@ -144,15 +144,21 @@ const store = new Vuex.Store({
         if (state.types.length === 0) {
           await dispatch("getTypes");
         }
-        const type = state.types.find((type) => type.name === payload.type);
-        const newLink = type._links.self.href;
-        const typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
+        let typeLink;
+        if (payload.type != null) {
+          const type = state.types.find((type) => type.name === payload.type);
+          const newLink = type._links.self.href;
+          typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
+          commit("setType", { type: typeLink });
+        } else {
+          typeLink = state.type;
+        }
+
         const {
           data: { animals, pagination },
         } = await axios.get(`/animals?type=${typeLink}&page=${payload.page}`);
         commit("setPets", { pets: animals });
         commit("setPagination", { pagination });
-        commit("setType", { type: typeLink });
         commit("setLoading", { loading: false });
       } catch (err) {
         console.log("Error", err.message);

@@ -26,7 +26,7 @@
       <img
         class="no-photo"
         v-if="!pet.photos || pet.photos.length === 0"
-        src="@/assets/dog.jpeg"
+        src="@/assets/no-photo-available.jpeg"
       />
       <p class="description" v-html="pet.description"></p>
       <a class="btn btn-primary" target="_blank" v-bind:href="pet.url"
