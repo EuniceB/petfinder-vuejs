@@ -34,6 +34,8 @@ axios.interceptors.response.use(
 
 axios.interceptors.request.use(
   async (request) => {
+    if (request.url.endsWith("/oauth2/token")) return request;
+
     if (
       !request.headers.Authorization ||
       request.headers.Authorization.length === 0 ||

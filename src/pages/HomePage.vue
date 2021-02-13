@@ -39,7 +39,6 @@ export default {
   mounted() {
     this.$store.dispatch("getTypes");
     setTimeout(() => {
-      console.log(this.types);
     }, 10000);
   },
 };
