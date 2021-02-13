@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <FindAPet></FindAPet>
-    <Pets></Pets>
+  <div class="full">
+    <div class="full flex">
+      <Sidebar></Sidebar>
+      <Pets></Pets>
+    </div>
   </div>
 </template>
 
 <script>
-import FindAPet from "../components/FindAPet";
 import Pets from "../components/Pets";
+import Sidebar from "../components/layout/Sidebar";
 
 export default {
   name: "PetListPage",
   components: {
-    FindAPet,
     Pets,
+    Sidebar,
   },
   computed: {
     typesAreLoaded() {
@@ -21,10 +23,14 @@ export default {
     },
   },
   async mounted() {
-    this.$store.dispatch("getPetsPage", { type: this.$route.params.type });
+    await this.$store.dispatch("initType", { type: this.$route.params.type });
+    this.$store.dispatch("getPetsPage");
   },
 };
 </script>
 
 <style scoped>
+.flex {
+  display: flex;
+}
 </style>

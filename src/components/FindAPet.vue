@@ -1,7 +1,12 @@
 <template>
   <div class="find-a-pet">
     <form v-on:submit="searchPets">
-      <input type="text" v-model="name" name="name" placeholder="Search by name..." />
+      <input
+        type="text"
+        v-model="name"
+        name="name"
+        placeholder="Search by name..."
+      />
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
   </div>
@@ -16,19 +21,18 @@ export default {
     };
   },
   methods: {
-      searchPets(e) {
-          e.preventDefault();
-          this.$store.dispatch('searchPets', {name: this.name});
-          this.name = '';
-      }
-  }
+    searchPets(e) {
+      e.preventDefault();
+      this.$store.dispatch("searchPets", { name: this.name });
+      this.name = "";
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .find-a-pet {
-    border-bottom: 1px solid #ccc;
+  flex-basis: 30%;
 }
 
 form {
@@ -43,6 +47,6 @@ input {
 
 button {
   flex: 2;
-  margin: 8px;
+  border: none;
 }
 </style>

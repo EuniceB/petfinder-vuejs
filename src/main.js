@@ -82,6 +82,10 @@ const store = new Vuex.Store({
     pagination: null,
     pets: [],
     types: [],
+    breeds: [],
+    coats: [],
+    colors: [],
+    genders: [],
     type: null,
   },
   mutations: {
@@ -102,6 +106,18 @@ const store = new Vuex.Store({
     },
     setType(state, payload) {
       state.type = payload.type;
+    },
+    setBreeds(state, payload) {
+      state.breeds = payload.breeds;
+    },
+    setColors(state, payload) {
+      state.colors = payload.colors;
+    },
+    setCoats(state, payload) {
+      state.coats = payload.coats;
+    },
+    setGenders(state, payload) {
+      state.genders = payload.genders;
     },
   },
   actions: {
@@ -137,8 +153,44 @@ const store = new Vuex.Store({
         console.log("Error", err.message);
       }
     },
-    async getPetsPage({ state, commit, dispatch }, payload) {
-      if (!payload.page) {
+    async getBreeds({ state, commit }) {
+      try {
+        commit("setLoading", { loading: true });
+        if (!state.type) {
+          throw Error("No type loaded!");
+        }
+        const {
+          data: { breeds },
+        } = await axios.get(`/types/${state.type}/breeds`);
+        commit("setBreeds", { breeds });
+        commit("setLoading", { loading: false });
+      } catch (err) {
+        console.log("Error", err.message);
+      }
+    },
+    async initType({ state, commit, dispatch }, payload) {
+      try {
+        commit("setLoading", { loading: true });
+        if (state.types.length === 0) {
+          await dispatch("getTypes");
+        }
+        if (!payload.type) throw Error("Type not specified");
+        if (payload.type != null) {
+          const type = state.types.find((type) => type.name === payload.type);
+          const newLink = type._links.self.href;
+          let typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
+          commit("setType", { type: typeLink });
+          commit("setCoats", { coats: type.coats });
+          commit("setGenders", { genders: type.genders });
+          commit("setColors", { colors: type.colors })
+          dispatch("getBreeds");
+        }
+      } catch (err) {
+        console.log("Error", err.message);
+      }
+    },
+    async getPetsPage({ state, commit, dispatch }, payload = {}) {
+      if (!payload || !payload.page) {
         payload.page = 1;
       }
       try {
@@ -151,7 +203,6 @@ const store = new Vuex.Store({
           const type = state.types.find((type) => type.name === payload.type);
           const newLink = type._links.self.href;
           typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
-          commit("setType", { type: typeLink });
         } else {
           typeLink = state.type;
         }

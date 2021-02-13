@@ -94,6 +94,7 @@ export default {
   display: flex;
   width: 200px;
   margin: 8px auto;
+  font-size: 80%;
   justify-content: space-around;
   align-items: center;
 }

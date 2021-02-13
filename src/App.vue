@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="full">
     <Header></Header>
-    <div class="container">
+    <div class="container full">
       <router-view></router-view>
     </div>
   </div>
@@ -19,10 +19,10 @@ export default {
     isLoggedIn() {
       return this.$store.state.accessToken != null;
     },
-    typesAreLoaded(){
-      return this.$store.state.types && this.$store.state.types.length>0
-    }
-  }
+    typesAreLoaded() {
+      return this.$store.state.types && this.$store.state.types.length > 0;
+    },
+  },
 };
 </script>
 
@@ -92,5 +92,14 @@ a.btn-primary:hover {
 
 .container > * {
   min-height: inherit;
+}
+
+.full {
+  width: 100%;
+}
+
+html,
+body {
+  width: 100%;
 }
 </style>
