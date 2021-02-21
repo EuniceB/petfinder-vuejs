@@ -71,7 +71,6 @@ a.btn-primary {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-grow: 1;
 }
 
 .loader img {

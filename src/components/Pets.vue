@@ -48,6 +48,7 @@ export default {
   min-height: inherit;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .pets {
