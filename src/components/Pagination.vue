@@ -93,7 +93,7 @@ export default {
 .pagination {
   display: flex;
   width: 200px;
-  margin: 8px auto;
+  margin: 0 auto;
   font-size: 80%;
   justify-content: space-around;
   align-items: center;
@@ -102,14 +102,17 @@ export default {
 .page-link {
   padding: 8px 16px;
   cursor: pointer;
+  border-radius: 50%;
 }
 
 .page-link:hover {
-  background-color: #fbd1c5;
+  background-color: #6273a7;
+  color: white;
 }
 
 .current {
-  background-color: #f15025;
+  background-color: #2a324b;
   color: white;
+  border-radius: 50%;
 }
 </style>

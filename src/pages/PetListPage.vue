@@ -1,6 +1,6 @@
 <template>
-  <div class="full">
-    <div class="full flex">
+  <div>
+    <div class="flex">
       <Sidebar></Sidebar>
       <Pets></Pets>
     </div>

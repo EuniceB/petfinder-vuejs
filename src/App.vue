@@ -27,6 +27,8 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Quicksand:wght@500&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -34,8 +36,18 @@ export default {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.4;
+  font-family: "Quicksand", sans-serif;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Akaya Telivigala", cursive;
+  line-height: 1.1;
 }
 
 .btn {
@@ -45,22 +57,15 @@ body {
 }
 
 .btn-primary {
+  background-color: #f15025;
+  color: white;
+}
+
+.btn-secondary {
   background-color: #2a324b;
   color: white;
 }
 
-.btn-primary:hover {
-  background-color: #1e2334;
-}
-
-.btn-secondary {
-  background-color: #6273a7;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background-color: #58699d;
-}
 
 a.btn-primary {
   display: inline-block;

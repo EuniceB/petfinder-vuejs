@@ -18,10 +18,11 @@ export default {
 <style scoped>
 header {
   padding: 20px;
-  background-color: #f15025;
+  background-color: #2a324b;
   color: white;
   display: flex;
   justify-content: space-between;
+  box-shadow: 5px 0px 15px rgba(0,0,0,0.3);
 }
 
 h2:hover {

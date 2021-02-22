@@ -49,35 +49,22 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  padding: 25px;
 }
 
 .pets {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   width: 100%;
+  justify-content: center;
+}
+
+.pets > * {
+  flex: 0 0 25em;
 }
 
 .pet {
-  width: 22%;
-  margin: 10px;
+  margin: 30px;
 }
 
-@media screen and (max-width: 1500px) {
-  .pet {
-    width: 30%;
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .pet {
-    width: 47%;
-  }
-}
-
-@media screen and (max-width: 670px) {
-  .pet {
-    width: 100%;
-  }
-}
 </style>

@@ -93,7 +93,7 @@ export default {
 .sidebar {
   flex-basis: 15%;
   flex-shrink: 0;
-  padding: 10px;
+  padding: 25px;
   font-size: 80%;
 }
 

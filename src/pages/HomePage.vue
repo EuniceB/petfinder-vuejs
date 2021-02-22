@@ -59,7 +59,7 @@ ul li {
   margin: 8px;
   display: flex;
   flex-direction: column;
-  flex: 0 0 100%;
+  flex-basis: 100%;
   padding: 16px;
   align-items: center;
   justify-content: center;
