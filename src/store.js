@@ -9,8 +9,9 @@ const initialState = {
     coats: [],
     colors: [],
     genders: [],
-    filters: [],
+    filters: {},
     type: null,
+    query: null
 };
 
 export default {
@@ -18,6 +19,9 @@ export default {
     mutations: {
         setLoading(state, payload) {
             state.loading = payload.loading;
+        },
+        setQuery(state, payload) {
+            state.query = payload.query;
         },
         setPet(state, payload) {
             state.pet = payload.pet;
@@ -115,7 +119,7 @@ export default {
                 }
                 const {
                     data: { breeds },
-                } = await axios.get(`/types/${state.type}/breeds`);
+                } = await axios.get(`/types/${state.type.link}/breeds`);
                 commit("setBreeds", { breeds });
                 commit("setLoading", { loading: false });
             } catch (err) {
@@ -133,7 +137,7 @@ export default {
                     const type = state.types.find((type) => type.name === payload.type);
                     const newLink = type._links.self.href;
                     let typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
-                    commit("setType", { type: typeLink });
+                    commit("setType", { type: { name: payload.type, link: typeLink } });
                     commit("setCoats", { coats: type.coats });
                     commit("setGenders", { genders: type.genders });
                     commit("setColors", { colors: type.colors });
@@ -148,6 +152,7 @@ export default {
         async getPetsPage({ state, commit, dispatch }, payload = {}) {
             try {
                 const page = payload.page || (state.pagination ? state.pagination.current_page : 1);
+                const query = state.query ? `&name=${state.query}` : '';
                 let filtersAsString = Object.entries(state.filters).map(elem => {
                     if (elem[0] === "attributes") {
                         return elem[1].map(attr => `${attr}=true`).join("&");
@@ -161,16 +166,17 @@ export default {
                 }
                 let typeLink;
                 if (payload.type != null) {
+                    console.log(state.types.map(s => s.name), payload.type)
                     const type = state.types.find((type) => type.name === payload.type);
                     const newLink = type._links.self.href;
                     typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
                 } else {
-                    typeLink = state.type;
+                    typeLink = state.type.link;
                 }
-
+                console.log("Type is", typeLink)
                 const {
                     data: { animals, pagination },
-                } = await axios.get(`/animals?type=${typeLink}&page=${page}${filtersAsString.length > 0 ? '&' + filtersAsString : ''}`);
+                } = await axios.get(`/animals?type=${typeLink}${query}&page=${page}${filtersAsString.length > 0 ? '&' + filtersAsString : ''}`);
                 commit("setPets", { pets: animals });
                 commit("setPagination", { pagination });
                 commit("setLoading", { loading: false });
@@ -182,18 +188,19 @@ export default {
             try {
                 commit("setLoading", { loading: true });
                 const {
-                    data: { pets, pagination },
+                    data: { animals, pagination },
                 } = await axios.get(
-                    `/animals?type=${state.type}&name=${payload.name}`,
+                    `/animals?type=${state.type.link}&name=${payload.name}`,
                     {
                         headers: {
                             Authorization: `Bearer ${state.accessToken}`,
                         },
                     }
                 );
-                commit("setPets", { pets });
+                commit("setPets", { pets: animals });
                 commit("setPagination", { pagination });
                 commit("setLoading", { loading: false });
+                commit("setQuery", { query: payload.name })
             } catch (err) {
                 console.log("Error", err.message);
             }

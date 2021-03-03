@@ -17,6 +17,13 @@ export default {
     Pets,
     Sidebar,
   },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.dispatch("getPetsPage", {
+      page: to.params.page,
+      type: to.params.type,
+    });
+    next();
+  },
   computed: {
     typesAreLoaded() {
       return this.$store.state.types && this.$store.state.types.length > 0;
@@ -24,7 +31,7 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("initType", { type: this.$route.params.type });
-    this.$store.dispatch("getPetsPage");
+    this.$store.dispatch("getPetsPage", { page: this.$route.params.page });
   },
 };
 </script>

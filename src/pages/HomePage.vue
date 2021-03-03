@@ -2,7 +2,7 @@
 <template>
   <ul>
     <router-link
-      :to="'/pets/' + type.name"
+      :to="'/pets/' + type.name + '/1'"
       tag="li"
       class="card"
       v-for="type in types"
@@ -39,8 +39,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getTypes");
-    setTimeout(() => {
-    }, 10000);
+    setTimeout(() => {}, 10000);
   },
 };
 </script>

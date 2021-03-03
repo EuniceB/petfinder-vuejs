@@ -82,12 +82,12 @@ export default {
     loading() {
       return this.$store.state.loading;
     },
-    pet () {
-      return this.$store.state.pet
-    }
+    pet() {
+      return this.$store.state.pet;
+    },
   },
   async mounted() {
-    this.$store.dispatch("getPetInformation", {id: this.$route.params.id});
+    this.$store.dispatch("getPetInformation", { id: this.$route.params.id });
   },
 };
 </script>
@@ -113,7 +113,7 @@ header span {
 
 .card {
   width: 40%;
-  margin: 2em;
+  margin: 2em 1.5em;
 }
 
 .card > *:not(:last-child) {

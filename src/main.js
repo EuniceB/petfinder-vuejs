@@ -27,9 +27,10 @@ const router = new VueRouter({
       component: HomePage,
     },
     {
-      path: "/pets/:type",
+      path: "/pets/:type/:page",
       component: PetListPage,
     },
+    { path: '/pets/:type', redirect: '/pets/:type/1' },
     {
       path: "/pet/:id",
       component: PetPage,

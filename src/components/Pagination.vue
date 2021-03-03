@@ -1,15 +1,11 @@
 <template>
   <div class="pagination">
-    <div
-      class="page-link"
-      v-if="currentPage !== 1"
-      @click="getPage(1)"
-    >
+    <div class="page-link" v-if="currentPage !== 1" @click="getPage(1)">
       &laquo;
     </div>
     <div
       class="page-link"
-      v-if="currentPage !== 1"
+      v-if="currentPage !== 1 && totalPages >= currentPage - 1"
       @click="getPage(currentPage - 1)"
     >
       &lt;
@@ -44,38 +40,52 @@
 export default {
   name: "Pagination",
   computed: {
-    currentPage () {
-      return this.$store.state.pagination? this.$store.state.pagination.current_page: null;
+    type() {
+      console.log("Pagination type", this.$store.state.type);
+      return this.$store.state.type;
     },
-    totalPages () {
-      return this.$store.state.pagination? this.$store.state.pagination.total_pages: null;
+    totalCount() {
+      return this.$store.state.pagination
+        ? this.$store.state.pagination.total_count
+        : null;
+    },
+    currentPage() {
+      return this.$store.state.pagination
+        ? this.$store.state.pagination.current_page
+        : null;
+    },
+    totalPages() {
+      return this.$store.state.pagination
+        ? this.$store.state.pagination.total_pages
+        : null;
     },
     pages() {
       const pages = [];
-      if (this.currentPage >= 1 && this.currentPage <= 5) {
-        pages.push(1, 2, 3, 4, 5);
-      } else if (
-        this.currentPage >= this.totalPages - 4 &&
-        this.currentPage <= this.totalPages
-      ) {
-        pages.push(
-          this.totalPages - 4,
-          this.totalPages - 3,
-          this.totalPages - 2,
-          this.totalPages - 1,
-          this.totalPages
-        );
-      } else {
-        pages.push(
-          this.currentPage - 1,
-          this.currentPage,
-          this.currentPage + 1,
-          this.currentPage + 2,
-          this.currentPage + 3
-        );
+
+      if (this.totalPages >= this.currentPage - 2 && this.currentPage - 2 > 0) {
+        pages.push(this.currentPage - 2);
       }
+      if (this.totalPages >= this.currentPage - 1 && this.currentPage - 1 > 0) {
+        pages.push(this.currentPage - 1);
+      }
+      if (this.totalPages >= this.currentPage && this.totalCount > 0) {
+        pages.push(this.currentPage);
+      }
+      if (this.totalPages >= this.currentPage + 1) {
+        pages.push(this.currentPage + 1);
+      }
+      if (this.totalPages >= this.currentPage + 2) {
+        pages.push(this.currentPage + 2);
+      }
+      if (this.totalPages >= this.currentPage + 3 && this.currentPage < 3) {
+        pages.push(this.currentPage + 3);
+      }
+      if (this.totalPages >= this.currentPage + 4 && this.currentPage < 2) {
+        pages.push(this.currentPage + 4);
+      }
+
       return pages;
-    }
+    },
   },
   methods: {
     async getPage(page) {
@@ -83,9 +93,9 @@ export default {
         return;
       }
 
-      await this.$store.dispatch("getPetsPage", {page});
+      this.$router.push({ path: `/pets/${this.type.name}/${page}` });
     },
-  }
+  },
 };
 </script>
 

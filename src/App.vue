@@ -54,6 +54,8 @@ h6 {
   border: none;
   cursor: pointer;
   padding: 8px;
+  border-radius: 5px;
+  background-color: rgb(238, 237, 237);
 }
 
 .btn-primary {
@@ -66,10 +68,39 @@ h6 {
   color: white;
 }
 
-
 a.btn-primary {
   display: inline-block;
   text-decoration: none;
+}
+
+.btn-primary {
+  text-align: center;
+  border-radius: 5px;
+  position: relative;
+}
+
+.btn-primary:hover {
+  color: #2a324b;
+  background-color: white;
+  border: 2px solid #f15025;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background-color: #f15025;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  transform: rotate(0deg);
+  transition: transform 150ms ease-in;
+}
+
+.btn-primary:hover::before {
+  transform: rotate(4deg);
 }
 
 .loader {
@@ -101,36 +132,6 @@ a.btn-primary {
   display: flex;
   justify-content: center;
   margin-bottom: 1em;
-}
-
-.btn-primary {
-  text-align: center;
-  border-radius: 5px;
-  position: relative;
-}
-
-.btn-primary:hover{
-  color: #2a324b;
-  background-color: white;
-  border: 2px solid #f15025;
-}
-
-.btn-primary::before{
-  content: '';
-  position: absolute;
-  z-index: -1;
-  background-color: #f15025;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-  transform: rotate(0deg);
-  transition: transform 150ms ease-in;
-}
-
-.btn-primary:hover::before{
-  transform: rotate(4deg);
 }
 
 a:hover {

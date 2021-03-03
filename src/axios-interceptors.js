@@ -6,6 +6,7 @@ export const initAxiosInterceptors = () => {
             return response;
         },
         async (error) => {
+            console.log("Response error:", JSON.stringify(error))
             if (error.response && error.response != 401) {
                 return Promise.reject(error);
             }

@@ -16,6 +16,8 @@
           ><PetItem v-bind:pet="pet"></PetItem
         ></router-link>
       </div>
+      <Pagination v-if="pagination"></Pagination>
+      <p v-if="!pets || pets.length === 0">No pets found</p>
     </div>
   </div>
 </template>
@@ -39,7 +41,7 @@ export default {
     pagination() {
       return this.$store.state.pagination;
     },
-  }
+  },
 };
 </script>
 
@@ -65,5 +67,4 @@ export default {
   flex: 0 0 25em;
   margin: 2em;
 }
-
 </style>
