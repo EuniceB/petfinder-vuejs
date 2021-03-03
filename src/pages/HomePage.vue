@@ -4,11 +4,12 @@
     <router-link
       :to="'/pets/' + type.name"
       tag="li"
+      class="card"
       v-for="type in types"
       v-bind:key="type.name"
     >
       <img v-bind:src="require('@/assets/' + photos[type.name])" />
-      {{ type.name }}
+      <p>{{ type.name }}</p>
     </router-link>
   </ul>
 </template>
@@ -55,21 +56,13 @@ ul {
   flex-wrap: wrap;
 }
 
-ul li {
-  margin: 8px;
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  padding: 16px;
-  align-items: center;
-  justify-content: center;
-  background: #eaeaea;
+.card {
+  flex: 0 1 19em;
+  margin: 2em;
 }
 
-@media screen and (min-width: 800px) {
-  ul li {
-    flex: 0 0 25%;
-  }
+.card p {
+  text-align: center;
 }
 
 ul li:hover {
@@ -79,6 +72,8 @@ ul li:hover {
 img {
   display: block;
   height: 150px;
-  margin-bottom: 16px
+  margin: 0 auto;
+  margin-bottom: 16px;
+  max-width: 100%;
 }
 </style>

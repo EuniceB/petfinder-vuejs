@@ -3,19 +3,19 @@
     <div v-if="loading" class="loader">
       <img src="@/assets/loading.gif" />
     </div>
-    <div class="pet-information" v-if="pet">
-      <router-link to="/"> &lt;&lt; Back to list of pets</router-link>
+    <div class="card" v-if="pet">
+      <a href="#" @click="$router.go(-1)"> &lt;&lt; Back to list of pets</a>
       <header>
-        <span v-html="pet.name"></span>
+        <h1 v-html="pet.name"></h1>
         <font-awesome-icon
           v-if="pet.gender === 'Male'"
           icon="mars"
-          :style="{ color: '#2547e1' }"
+          :style="{ color: '#2547e1', fontSize: '32pt', marginLeft: '.4em' }"
         />
         <font-awesome-icon
           v-if="pet.gender === 'Female'"
           icon="venus"
-          :style="{ color: '#e1258e' }"
+          :style="{ color: '#e1258e', fontSize: '32pt', marginLeft: '.4em' }"
         />
       </header>
       <p class="date">{{ new Date(pet.published_at).toLocaleString() }}</p>
@@ -79,6 +79,9 @@
 export default {
   name: "PetPage",
   computed: {
+    loading() {
+      return this.$store.state.loading;
+    },
     pet () {
       return this.$store.state.pet
     }
@@ -93,7 +96,8 @@ export default {
 .pet-page {
   min-height: inherit;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 header {
@@ -107,16 +111,13 @@ header span {
   margin-right: 8px;
 }
 
-.pet-information {
-  width: 80%;
-  margin: 16px auto auto auto;
-  background-color: #eaeaea;
-  padding: 32px;
-  border: 1px dotted #aaa;
+.card {
+  width: 40%;
+  margin: 2em;
 }
 
-.pet-information > * {
-  margin-bottom: 16px;
+.card > *:not(:last-child) {
+  margin-bottom: 3em;
 }
 
 .no-photo {

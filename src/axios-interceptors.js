@@ -9,6 +9,7 @@ export const initAxiosInterceptors = () => {
             if (error.response && error.response != 401) {
                 return Promise.reject(error);
             }
+            console.log("Getting new access token");
             const accessToken = await getNewAccessToken();
             localStorage.setItem("accessToken", accessToken);
             error.config.headers.Authorization = `Bearer ${accessToken}`;

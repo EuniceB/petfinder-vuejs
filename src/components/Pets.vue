@@ -49,7 +49,9 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  flex-wrap: wrap;
   padding: 25px;
+  max-width: 80%;
 }
 
 .pets {
@@ -61,10 +63,7 @@ export default {
 
 .pets > * {
   flex: 0 0 25em;
-}
-
-.pet {
-  margin: 30px;
+  margin: 2em;
 }
 
 </style>

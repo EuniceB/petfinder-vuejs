@@ -84,7 +84,56 @@ a.btn-primary {
   margin: 40px auto;
 }
 
-a.btn-primary:hover {
+.card {
+  background-color: #2a324b;
+  color: white;
+  padding: 3em;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.card a {
+  color: white;
+}
+
+.card header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.btn-primary {
+  text-align: center;
+  border-radius: 5px;
+  position: relative;
+}
+
+.btn-primary:hover{
+  color: #2a324b;
+  background-color: white;
+  border: 2px solid #f15025;
+}
+
+.btn-primary::before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  background-color: #f15025;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  transform: rotate(0deg);
+  transition: transform 150ms ease-in;
+}
+
+.btn-primary:hover::before{
+  transform: rotate(4deg);
+}
+
+a:hover {
   cursor: pointer;
 }
 

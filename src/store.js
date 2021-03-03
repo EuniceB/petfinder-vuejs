@@ -136,7 +136,9 @@ export default {
                     commit("setType", { type: typeLink });
                     commit("setCoats", { coats: type.coats });
                     commit("setGenders", { genders: type.genders });
-                    commit("setColors", { colors: type.colors })
+                    commit("setColors", { colors: type.colors });
+                    commit("setPets", { pets: [] });
+                    commit("setPet", { pet: null });
                     dispatch("getBreeds");
                 }
             } catch (err) {
@@ -145,10 +147,10 @@ export default {
         },
         async getPetsPage({ state, commit, dispatch }, payload = {}) {
             try {
-                const page = payload.page || state.pagination ? state.pagination.current_page : 1;
+                const page = payload.page || (state.pagination ? state.pagination.current_page : 1);
                 let filtersAsString = Object.entries(state.filters).map(elem => {
                     if (elem[0] === "attributes") {
-                        return elem[1].map(attr=>`${attr}=true`).join("&");
+                        return elem[1].map(attr => `${attr}=true`).join("&");
                     }
                     return `${elem[0]}=${elem[1]}`
                 }
