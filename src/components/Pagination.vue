@@ -41,22 +41,21 @@ export default {
   name: "Pagination",
   computed: {
     type() {
-      console.log("Pagination type", this.$store.state.type);
-      return this.$store.state.type;
+      return this.$store.state.pets.type;
     },
     totalCount() {
-      return this.$store.state.pagination
-        ? this.$store.state.pagination.total_count
+      return this.$store.state.pets.pagination
+        ? this.$store.state.pets.pagination.total_count
         : null;
     },
     currentPage() {
-      return this.$store.state.pagination
-        ? this.$store.state.pagination.current_page
+      return this.$store.state.pets.pagination
+        ? this.$store.state.pets.pagination.current_page
         : null;
     },
     totalPages() {
-      return this.$store.state.pagination
-        ? this.$store.state.pagination.total_pages
+      return this.$store.state.pets.pagination
+        ? this.$store.state.pets.pagination.total_pages
         : null;
     },
     pages() {

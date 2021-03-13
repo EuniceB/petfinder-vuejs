@@ -143,6 +143,7 @@ export default {
                     commit("setColors", { colors: type.colors });
                     commit("setPets", { pets: [] });
                     commit("setPet", { pet: null });
+                    commit("clearFilters");
                     dispatch("getBreeds");
                 }
             } catch (err) {
@@ -166,14 +167,12 @@ export default {
                 }
                 let typeLink;
                 if (payload.type != null) {
-                    console.log(state.types.map(s => s.name), payload.type)
                     const type = state.types.find((type) => type.name === payload.type);
                     const newLink = type._links.self.href;
                     typeLink = newLink.substring(newLink.lastIndexOf("/") + 1);
                 } else {
                     typeLink = state.type.link;
                 }
-                console.log("Type is", typeLink)
                 const {
                     data: { animals, pagination },
                 } = await axios.get(`/animals?type=${typeLink}${query}&page=${page}${filtersAsString.length > 0 ? '&' + filtersAsString : ''}`);

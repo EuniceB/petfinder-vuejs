@@ -7,8 +7,13 @@
       class="card"
       v-for="type in types"
       v-bind:key="type.name"
+      :style="{
+        backgroundImage:
+          'url(' + require('@/assets/' + photos[type.name]) + ')',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'none',
+      }"
     >
-      <img v-bind:src="require('@/assets/' + photos[type.name])" />
       <p>{{ type.name }}</p>
     </router-link>
   </ul>
@@ -34,7 +39,7 @@ export default {
   },
   computed: {
     types() {
-      return this.$store.state.types;
+      return this.$store.state.pets.types;
     },
   },
   mounted() {
@@ -57,11 +62,20 @@ ul {
 
 .card {
   flex: 0 1 19em;
+  min-height: 20em;
   margin: 2em;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 0;
 }
 
 .card p {
+  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
   text-align: center;
+  padding: 0.5em 0;
 }
 
 ul li:hover {

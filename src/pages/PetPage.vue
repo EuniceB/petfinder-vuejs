@@ -80,10 +80,10 @@ export default {
   name: "PetPage",
   computed: {
     loading() {
-      return this.$store.state.loading;
+      return this.$store.state.pets.loading;
     },
     pet() {
-      return this.$store.state.pet;
+      return this.$store.state.pets.pet;
     },
   },
   async mounted() {
@@ -112,8 +112,15 @@ header span {
 }
 
 .card {
-  width: 40%;
+  width: 60%;
   margin: 2em 1.5em;
+}
+
+@media only screen and (max-width: 860px) {
+  .card {
+    width: 90%;
+    margin: 2em 1.5em;
+  }
 }
 
 .card > *:not(:last-child) {

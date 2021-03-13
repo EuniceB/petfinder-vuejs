@@ -5,7 +5,7 @@
     </div>
 
     <div v-if="!loading">
-      <Pagination v-if="pagination"></Pagination>
+      <Pagination v-if="pagination && pets && pets.length > 0"></Pagination>
       <div class="pets" v-if="pets && pets.length > 0">
         <router-link
           tag="div"
@@ -16,7 +16,7 @@
           ><PetItem v-bind:pet="pet"></PetItem
         ></router-link>
       </div>
-      <Pagination v-if="pagination"></Pagination>
+      <Pagination v-if="pagination && pets && pets.length > 0"></Pagination>
       <p v-if="!pets || pets.length === 0">No pets found</p>
     </div>
   </div>
@@ -33,13 +33,13 @@ export default {
   },
   computed: {
     loading() {
-      return this.$store.state.loading;
+      return this.$store.state.pets.loading;
     },
     pets() {
-      return this.$store.state.pets;
+      return this.$store.state.pets.pets;
     },
     pagination() {
-      return this.$store.state.pagination;
+      return this.$store.state.pets.pagination;
     },
   },
 };
@@ -49,11 +49,10 @@ export default {
 .pet-list {
   min-height: inherit;
   display: flex;
+  grid-area: pets;
   flex-direction: column;
-  flex-grow: 1;
   flex-wrap: wrap;
   padding: 25px;
-  max-width: 80%;
 }
 
 .pets {

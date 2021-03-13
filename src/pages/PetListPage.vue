@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex">
-      <Sidebar></Sidebar>
+    <div class="pet-list-page">
+      <Sidebar v-bind:class="{ open: isSidebarOpen }"></Sidebar>
       <Pets></Pets>
     </div>
   </div>
@@ -26,7 +26,12 @@ export default {
   },
   computed: {
     typesAreLoaded() {
-      return this.$store.state.types && this.$store.state.types.length > 0;
+      return (
+        this.$store.state.pets.types && this.$store.state.pets.types.length > 0
+      );
+    },
+    isSidebarOpen() {
+      return this.$store.state.ui.sidebarOpen;
     },
   },
   async mounted() {
@@ -37,7 +42,16 @@ export default {
 </script>
 
 <style scoped>
-.flex {
-  display: flex;
+.pet-list-page {
+  display: grid;
+  grid-template-columns: 20% auto;
+  grid-template-areas: "sidebar pets";
+}
+
+@media only screen and (max-width: 860px) {
+  .pet-list-page {
+    grid-template-columns: 1fr;
+    grid-template-areas: "sidebar sidebar" "pets pets";
+  }
 }
 </style>

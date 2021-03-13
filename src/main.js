@@ -8,10 +8,11 @@ import VueRouter from "vue-router";
 import PetListPage from "./pages/PetListPage";
 import PetPage from "./pages/PetPage";
 import HomePage from "./pages/HomePage";
-import store from "./store";
 import VueAxios from 'vue-axios';
 import axios from "axios";
 import { initAxiosInterceptors } from "./axios-interceptors";
+import uiStore from "./ui-store";
+import petStore from "./pet-store";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 library.add(faMars, faVenus);
@@ -42,7 +43,7 @@ Vue.use(Vuex);
 
 new Vue({
   router,
-  store: new Vuex.Store(store),
+  store: new Vuex.Store({ modules: { ui: uiStore, pets: petStore } }),
   render: (h) => h(App),
   created() {
     initAxiosInterceptors();

@@ -16,11 +16,10 @@ export default {
     Header,
   },
   computed: {
-    isLoggedIn() {
-      return this.$store.state.accessToken != null;
-    },
     typesAreLoaded() {
-      return this.$store.state.types && this.$store.state.types.length > 0;
+      return (
+        this.$store.state.pets.types && this.$store.state.pets.types.length > 0
+      );
     },
   },
 };
@@ -76,31 +75,35 @@ a.btn-primary {
 .btn-primary {
   text-align: center;
   border-radius: 5px;
+  overflow: hidden;
   position: relative;
 }
 
 .btn-primary:hover {
   color: #2a324b;
-  background-color: white;
-  border: 2px solid #f15025;
+  padding: 6px;
+  border: 2px solid white;
 }
 
 .btn-primary::before {
   content: "";
   position: absolute;
-  z-index: -1;
-  background-color: #f15025;
+  z-index: 10;
+  background-color: rgb(255, 255, 255, 0.2);
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   border-radius: 5px;
-  transform: rotate(0deg);
+  transform: scaleX(0);
+  transform-origin: left;
   transition: transform 150ms ease-in;
 }
 
 .btn-primary:hover::before {
-  transform: rotate(4deg);
+  transform: scaleX(1);
+  transition: transform 150ms ease-in;
+  transform-origin: right;
 }
 
 .loader {
