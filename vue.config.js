@@ -1,6 +1,3 @@
 module.exports = {
-    publicPath: '/petfinder-vuejs/',
-    devServer: {
-        proxy: "http://api.petfinder.com/v2/"
-    }
+    publicPath: process.env.VUE_APP_MODE === "production" ? '/petfinder-vuejs/' : '/'
 }

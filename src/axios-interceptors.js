@@ -46,7 +46,7 @@ export const initAxiosInterceptors = () => {
 async function getNewAccessToken() {
     const {
         data: { access_token },
-    } = await axios.post("/oauth2/token", {
+    } = await axios.post(`${process.env.VUE_APP_API_URL}/oauth2/token`, {
         grant_type: "client_credentials",
         client_id: process.env.VUE_APP_CLIENT_ID,
         client_secret: process.env.VUE_APP_CLIENT_SECRET,
