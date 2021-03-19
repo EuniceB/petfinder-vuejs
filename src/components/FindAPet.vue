@@ -1,6 +1,6 @@
 <template>
   <div class="find-a-pet">
-    <form v-on:submit="searchPets">
+    <form @submit.prevent="searchPets">
       <input
         type="text"
         v-model="name"
@@ -21,8 +21,7 @@ export default {
     };
   },
   methods: {
-    searchPets(e) {
-      e.preventDefault();
+    searchPets() {
       this.$store.dispatch("searchPets", { name: this.name });
     },
   },

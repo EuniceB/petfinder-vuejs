@@ -4,7 +4,6 @@
       <img src="@/assets/loading.gif" />
     </div>
     <div class="card" v-if="pet">
-      <a href="#" @click="$router.go(-1)"> &lt;&lt; Back to list of pets</a>
       <header>
         <h1 v-html="pet.name"></h1>
         <font-awesome-icon
@@ -21,7 +20,7 @@
       <p class="date">{{ new Date(pet.published_at).toLocaleString() }}</p>
       <img
         v-if="pet.photos && pet.photos.length > 0"
-        v-bind:src="pet.photos[0].medium"
+        v-bind:src="pet.photos[0].full"
       />
       <img
         class="no-photo"
@@ -88,7 +87,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch("getPetInformation", { id: this.$route.params.id });
-  },
+  }
 };
 </script>
 
@@ -123,7 +122,7 @@ header span {
   }
 }
 
-.card > *:not(:last-child) {
+.card > *:not(:is(:last-child,header)) {
   margin-bottom: 3em;
 }
 

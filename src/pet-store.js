@@ -127,6 +127,7 @@ export default {
             }
         },
         async initType({ state, commit, dispatch }, payload) {
+            if (state.type?.name === payload.type) return;
             try {
                 commit("setLoading", { loading: true });
                 if (state.types.length === 0) {
