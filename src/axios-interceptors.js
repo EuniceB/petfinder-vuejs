@@ -1,7 +1,7 @@
-import axios from "axios";
+import client from "./axios";
 
 export const initAxiosInterceptors = () => {
-    axios.interceptors.response.use(
+    client.interceptors.response.use(
         (response) => {
             return response;
         },
@@ -14,11 +14,11 @@ export const initAxiosInterceptors = () => {
             const accessToken = await getNewAccessToken();
             localStorage.setItem("accessToken", accessToken);
             error.config.headers.Authorization = `Bearer ${accessToken}`;
-            return axios.request(error.config);
+            return client.request(error.config);
         }
     );
 
-    axios.interceptors.request.use(
+    client.interceptors.request.use(
         async (request) => {
             if (request.url.endsWith("/oauth2/token")) return request;
 
@@ -46,7 +46,7 @@ export const initAxiosInterceptors = () => {
 async function getNewAccessToken() {
     const {
         data: { access_token },
-    } = await axios.post(`${process.env.VUE_APP_API_URL}/oauth2/token`, {
+    } = await client.post(`/oauth2/token`, {
         grant_type: "client_credentials",
         client_id: process.env.VUE_APP_CLIENT_ID,
         client_secret: process.env.VUE_APP_CLIENT_SECRET,

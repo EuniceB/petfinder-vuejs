@@ -1,4 +1,5 @@
-import axios from "axios";
+import client from "./axios";
+
 const initialState = {
     pet: null,
     loading: false,
@@ -84,7 +85,7 @@ export default {
                 commit("setLoading", { loading: true });
                 const {
                     data: { animal },
-                } = await axios.get(`${process.env.VUE_APP_API_URL}/animals/${payload.id}`, {
+                } = await client.get(`/animals/${payload.id}`, {
                     headers: {
                         Authorization: `Bearer ${state.accessToken}`,
                     },
@@ -100,7 +101,7 @@ export default {
                 commit("setLoading", { loading: true });
                 const {
                     data: { types },
-                } = await axios.get(`${process.env.VUE_APP_API_URL}/types`, {
+                } = await client.get(`/types`, {
                     headers: {
                         Authorization: `Bearer ${state.accessToken}`,
                     },
@@ -119,7 +120,7 @@ export default {
                 }
                 const {
                     data: { breeds },
-                } = await axios.get(`${process.env.VUE_APP_API_URL}/types/${state.type.link}/breeds`);
+                } = await client.get(`/types/${state.type.link}/breeds`);
                 commit("setBreeds", { breeds });
                 commit("setLoading", { loading: false });
             } catch (err) {
@@ -176,7 +177,7 @@ export default {
                 }
                 const {
                     data: { animals, pagination },
-                } = await axios.get(`${process.env.VUE_APP_API_URL}/animals?type=${typeLink}${query}&page=${page}${filtersAsString.length > 0 ? '&' + filtersAsString : ''}`);
+                } = await client.get(`/animals?type=${typeLink}${query}&page=${page}${filtersAsString.length > 0 ? '&' + filtersAsString : ''}`);
                 commit("setPets", { pets: animals });
                 commit("setPagination", { pagination });
                 commit("setLoading", { loading: false });
@@ -189,8 +190,7 @@ export default {
                 commit("setLoading", { loading: true });
                 const {
                     data: { animals, pagination },
-                } = await axios.get(
-                    `${process.env.VUE_APP_API_URL}/animals?type=${state.type.link}&name=${payload.name}`,
+                } = await client.get(`/animals?type=${state.type.link}&name=${payload.name}`,
                     {
                         headers: {
                             Authorization: `Bearer ${state.accessToken}`,
