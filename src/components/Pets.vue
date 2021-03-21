@@ -66,4 +66,10 @@ export default {
   flex: 0 0 25em;
   margin: 2em;
 }
+
+@media screen and (max-width: 600px) {
+  .pets > * {
+    flex: 0 0 20em;
+  }
+}
 </style>

@@ -5,6 +5,7 @@
       class="filter-button"
       src="@/assets/filter.svg"
       v-on:click="toggleSidebar()"
+      v-if="isCurrentRoutePetsPage"
     />
   </header>
 </template>
@@ -16,6 +17,9 @@ export default {
     isSidebarOpen() {
       return this.$store.state.ui.sidebarOpen;
     },
+    isCurrentRoutePetsPage(){
+      return this.$route.path.indexOf("pets")>=0;
+    }
   },
   methods: {
     toggleSidebar() {
