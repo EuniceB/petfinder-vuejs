@@ -3,6 +3,9 @@
     <button class="btn" type="submit" v-on:click="clearFilters">
       Clear filters
     </button>
+    <button class="btn btn-primary" type="submit" v-on:click="closeSidebar">
+      Submit
+    </button>
     <div class="sidebar-section">
       <FindAPet></FindAPet>
     </div>
@@ -221,6 +224,9 @@ export default {
     toggleFilterValue(field, value) {
       this.$store.dispatch("toggleFilterValue", { field, value });
     },
+    closeSidebar() {
+      this.$store.commit("setSidebarOpen", false);
+    },
     clearFilters() {
       this.$store.commit("clearFilters");
       this.$store.dispatch("getPetsPage", { page: 1 });
@@ -291,6 +297,17 @@ ul {
 
 .btn {
   width: 100%;
+  margin-bottom: 10px;
+}
+
+.btn:last-of-type {
   margin-bottom: 30px;
+  display: none;
+}
+
+@media screen and (max-width: 600px){
+  .btn:last-of-type{
+    display: block;
+  }
 }
 </style>
