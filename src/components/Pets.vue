@@ -69,7 +69,11 @@ export default {
 
 @media screen and (max-width: 600px) {
   .pets > * {
-    flex: 0 0 20em;
+    flex: 0 0 90vw;
+  }
+
+  .pet-list {
+    padding: 25px 0;
   }
 }
 </style>
