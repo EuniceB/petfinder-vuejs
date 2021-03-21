@@ -70,6 +70,7 @@ export default {
 @media screen and (max-width: 600px) {
   .pets > * {
     flex: 0 0 90vw;
+    margin: 2em 0;
   }
 
   .pet-list {
