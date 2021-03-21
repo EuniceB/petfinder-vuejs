@@ -17,7 +17,7 @@
         ></router-link>
       </div>
       <Pagination v-if="pagination && pets && pets.length > 0"></Pagination>
-      <p v-if="!pets || pets.length === 0">No pets found</p>
+      <p class="no-pets-found" v-if="!pets || pets.length === 0">No pets found</p>
     </div>
   </div>
 </template>
@@ -75,6 +75,10 @@ export default {
 
   .pet-list {
     padding: 25px 0;
+  }
+
+  .no-pets-found {
+    padding-left: 10px;
   }
 }
 </style>
